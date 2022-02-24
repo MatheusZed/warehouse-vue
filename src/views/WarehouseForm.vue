@@ -2,7 +2,7 @@
   <div>
     <h1>Novo Galpao</h1>
     <div>{{ msg }}</div>
-    <form v-on:submit.prevent="postWarehouse">
+    <form v-bind:class="classe" v-on:submit.prevent="postWarehouse">
       <input v-model="form.name" placeholder="nome">
       <input v-model="form.code" placeholder="codigo">
       <input v-model="form.description" placeholder="descricao">
@@ -21,6 +21,7 @@ export default {
   name: 'WarehouseForm',
   data() {
     return {
+      class: "",
       msg: null,
       form: {
         name: null,
@@ -53,12 +54,24 @@ export default {
         });
         this.msg = "Galpao cadastrado"
         this.form = {}
+        this.classe = "success"
       }
       catch(error){
         const error_msg = await error.json();
         this.msg = error_msg;
+        this.classe = "error"
       }
     }
   }
 }
 </script>
+
+<style scoped>
+  form.success input {
+    border: 1px solid green;
+  }
+
+  form.error input {
+    border: 1px solid red;
+  }
+</style>
